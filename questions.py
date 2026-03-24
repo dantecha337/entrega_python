@@ -1,17 +1,28 @@
 import random
 
-words = [
-    "python",
-    "programa",
-    "variable",
-    "funcion",
-    "bucle",
-    "cadena",
-    "entero",
-    "lista",
-]
+categorias= {
+    "programacion": ["python", "variable","funcion","programa","bucle","lista","entero","cadena"],
+    "futbolistas argentinos": ["messi","maradona","batistuta","riquelme","di maria", "tevez", "kempes", "redondo"],
+    "bandas argentinas": ["soda estereo","patricio rey", "los piojos", "la renga", "babasonicos", "los abuelos de la nada", "rata blanca", "viejas locas"]
+}
 
-word = random.choice(words)
+lista_categorias= list(categorias.keys())
+
+#Imprime cada categoria con un numero para seleccionar
+for i in range(len(lista_categorias)):
+    print(f"{i+1} - {lista_categorias[i]}")
+
+#Valida que el numero elegido sea una opcion valida
+while True:
+    numero=int(input("Seleccione una opcion: "))
+    if numero<1 or numero>len(lista_categorias):
+        print("Opcion invalida, eliga de nuevo")
+    else:  
+        break
+
+eleccion= lista_categorias[numero-1]
+
+word = random.choice(categorias[eleccion])
 guessed = []
 attempts = 6
 
@@ -24,7 +35,11 @@ while attempts > 0:
     # Mostrar progreso: letras adivinadas y guiones para las que faltan
     progress = ""
     for letter in word:
-        if letter in guessed:
+
+        #Agregue esta validacion ya que algunas palabras que puse tenian espacios
+        if letter == " ":
+            progress+= "  "
+        elif letter in guessed:
             progress += letter + " "
         else:
             progress += "_ "
@@ -38,7 +53,8 @@ while attempts > 0:
     print(f"Intentos restantes: {attempts}")
     print(f"Letras usadas: {', '.join(guessed)}")
     
-    letter = input("Ingresá una letra: ")
+    #Agrego el lower para que se puedan poner mayusculas
+    letter = input("Ingresá una letra: ").lower()
     
     #Verifica que sea una letra y que no haya mas de una
     if len(letter)!=1 or not letter.isalpha():    
